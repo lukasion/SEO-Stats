@@ -3,16 +3,17 @@
     import { VApp, VCard, VContainer, VRow, VCol, VBtn, VTextField, VCardText } from 'vuetify/components';
     import axios from 'axios';
 
+    const API_URL = import.meta.env.VITE_API_URL;
     const name = $ref('')
     const show1 = $ref(false)
     const password = $ref('')
     const rules = {
         required: value => !!value || 'Pole jest wymagane',
-        min: v => v.length >= 8 || 'Minimum 8 znaków',
+        // min: v => v.length >= 8 || 'Minimum 8 znaków',
     };
 
     const submit = () => {
-        axios.post(`/auth/login`, {
+        axios.post(`${API_URL}/login`, {
             name: name,
             password: password
         }).then(response => {
@@ -27,7 +28,7 @@
             <v-row align="center" justify="center">
                 <v-col
                     class="d-flex justify-center">
-                    <img width="150px" src="https://forum.veritas-rp.pl/uploads/monthly_2022_03/godlo.png.de0cddd87ba5e002f326bf78fc57c711.png" />
+                    <h1 class="v">SEO Stats</h1>
                 </v-col>
             </v-row>
             <v-row align="center"
@@ -53,11 +54,10 @@
                             
                                 v-model="password"
                                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                :rules="[rules.required, rules.min]"
+                                :rules="[rules.required]"
                                 :type="show1 ? 'text' : 'password'"
                                 name="input-10-1"
                                 label="Hasło"
-                                hint="Minimum 8 znaków"
                                 counter
                                 @click:append="show1 = !show1"
                                 @keydown.enter="submit"
