@@ -20,4 +20,4 @@ Route::get('user/logout', [LoginController::class, 'logout']);
 
 Route::get('/{params?}', function () {
     return view('welcome');
-});
+})->where('params', '(.*)')->name('vue-panel');

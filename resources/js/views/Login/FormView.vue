@@ -40,6 +40,7 @@
     }
 
     onMounted(() => {
+        
         if (store.state.user) {
             router.push({name: 'dashboard'})
         }

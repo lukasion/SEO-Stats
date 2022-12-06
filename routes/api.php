@@ -26,4 +26,8 @@ Route::group(['prefix' => 'customers', 'middleware' => 'auth:sanctum'], function
 
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/{customerID}', [CustomerController::class, 'detail']);
+
+    Route::group(['prefix' => '/{customerID}'], function() {
+        Route::post('/phrase', [CustomerController::class, 'phraseAdd']);
+    });
 });
