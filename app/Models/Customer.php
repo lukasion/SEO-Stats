@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
+
+    public function phrases()
+    {
+        return $this->hasMany(Phrase::class, 'customer_id', 'id');
+    }
 }

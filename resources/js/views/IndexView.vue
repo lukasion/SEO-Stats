@@ -17,7 +17,9 @@
         { title: 'Wyloguj się', icon: 'mdi-logout', action: 'logout', type: 'href' },
     ]
 
-    const customer = $ref(1);
+    const phrases = $ref([]);
+
+    const customer = $ref(null);
     const customers = $ref([
         { id: null, name: '--' }
     ]);
@@ -52,6 +54,34 @@
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    const changeCustomer = (customerID) => {
+        if (customerID !== null) {
+            axios.get(`/api/customer/${customerID}`).then((response) => {
+                if (response.status == 200) {
+                    const data = response.data;
+
+                    if (data.phrases) {
+                        phrases = data.phrases;
+                        phrases.forEach((phrase) => {
+                            phrase.positions = [];
+
+                            if (phrase.position) {
+                                for (const [key, value] of Object.entries(phrase.position.position)) {
+                                    phrase.positions.push({
+                                        name: key, 
+                                        value: value
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     }
 
     onMounted(() => {
@@ -138,6 +168,7 @@
                                         :items="customers"
                                         v-model="customer"
                                         item-title="name"
+                                        @update:modelValue="changeCustomer"
                                         item-value="id"
                                         hide-details
                                         label="Klient">
@@ -149,7 +180,7 @@
                         <div v-if="customer">
                             <h3 class="mt-2">Raport dla: {{ customerName }}</h3>
 
-                            <div class="table margin--top-15">
+                            <div class="table margin--top-15" v-if="(phrases.length > 0)">
                                 <div class="table__row table__row--subheader">
                                     <div class="table__col table__col--10">
                                         Pozycjonowana fraza
@@ -158,14 +189,25 @@
                                         {{ index }}
                                     </div>
                                 </div>
-                                <div class="table__row" v-for="i in 10" :key="i">
+                                <div class="table__row" v-for="phrase in phrases">
                                     <div class="table__col table__col--10">
                                         <strong>Asddsa</strong>
                                     </div>
-                                    <div class="table__col" v-for="index in 31" :key="index">
-                                        {{ index }}
-                                    </div>
+                                    <template v-if="(phrase.positions.length > 0)">
+                                        <div class="table__col" v-for="position in phrase.positions" :key="index">
+                                            {{ position.value }}
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="table__col" v-for="index in 31" :key="'zero-' + index">
+                                            0
+                                        </div>
+                                    </template>
                                 </div>
+                            </div>
+                            
+                            <div v-else>
+                                Brak fraz zdefiniowanych dla wybranego klienta.
                             </div>
                         </div>
                     </v-container>

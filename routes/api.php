@@ -23,3 +23,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 Route::group(['prefix' => 'customers', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/', [CustomerController::class, 'list']);
 });
+
+Route::group(['prefix' => 'customer', 'middleware' => 'auth:sanctum'], function() {
+    Route::get('/{customerID}', [CustomerController::class, 'detail']);
+});

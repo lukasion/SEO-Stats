@@ -11,4 +11,9 @@ class CustomerController extends Controller
     {
         return Customer::all();
     }
+
+    public function detail(Request $request, int $customerID)
+    {
+        return Customer::with('phrases.position')->find($customerID);
+    }
 }
