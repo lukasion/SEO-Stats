@@ -1,8 +1,9 @@
 .v-application {
     .header {
         &__top {
-            background-color: $orange;
+            background-color: #382f80;
             padding: 8px !important;
+            min-height: 100px;
 
             &.v-list-item {
                 padding-left: 25px !important;
@@ -21,7 +22,7 @@
                 display: block;
                 padding: 5px 15px 5px 65px;
                 border-radius: 35px;
-                background-color: $grey;
+                background-color: white;
                 font-weight: bold;
             }
 
@@ -29,9 +30,22 @@
                 display: block;
                 padding: 10px 35px;
                 border-radius: 35px;
-                background-color: $orange;
+                background-color: #382f80;
                 font-weight: bold;
-                color: $grey;
+                color: white;
+            }
+        }
+
+        &__menu {
+            list-style-type: none;
+            display: flex;
+
+            li {
+                color: white;
+
+                a {
+                    padding: 5px 10px;
+                }
             }
         }
     }
