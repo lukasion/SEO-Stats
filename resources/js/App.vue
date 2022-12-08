@@ -36,7 +36,9 @@
                     <v-list-item class="px-2 header__top">
                         <div class="d-flex flex-row align-center" style="width: 100%;">
                             <v-btn
-                                class="mr-4"
+                                class="mr-4 border-md" 
+                                elevation="0"
+                                style="border-color: #f7f7f7 !important;"
                                 @click.stop="drawer = !drawer">
                                 Menu
                             </v-btn>

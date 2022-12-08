@@ -31,6 +31,32 @@
         }
     }
 
+    const fetchCustomer = (customerID) => {
+        axios.get(`/api/customer/${customerID}`).then((response) => {
+                if (response.status == 200) {
+                    const data = response.data;
+
+                    if (data.phrases) {
+                        phrases = data.phrases;
+                        phrases.forEach((phrase) => {
+                            phrase.positions = [];
+
+                            if (phrase.position) {
+                                for (const [key, value] of Object.entries(phrase.position.position)) {
+                                    phrase.positions.push({
+                                        name: key, 
+                                        value: value
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
     const fetchCustomers = () => {
         axios.get('/api/customers').then((response) => {
             if (response.status == 200) {
@@ -54,31 +80,25 @@
         });
     }
 
+    const deletePhrase = (customerID, phraseID) => {
+        axios.delete(`/api/customer/${customerID}/phrase/${phraseID}`).then((response) => {
+            if (response.status == 200 && response.data.result == true) {
+                fetchCustomer(customerID);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     const changeCustomer = (customerID) => {
+        if (route.query.customerID != customerID) {
+            route.query.customerID = null;
+
+            router.replace(route.query);
+        }
+
         if (customerID !== null) {
-            axios.get(`/api/customer/${customerID}`).then((response) => {
-                if (response.status == 200) {
-                    const data = response.data;
-
-                    if (data.phrases) {
-                        phrases = data.phrases;
-                        phrases.forEach((phrase) => {
-                            phrase.positions = [];
-
-                            if (phrase.position) {
-                                for (const [key, value] of Object.entries(phrase.position.position)) {
-                                    phrase.positions.push({
-                                        name: key, 
-                                        value: value
-                                    });
-                                }
-                            }
-                        });
-                    }
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+            fetchCustomer(customerID);
         }
     }
 
@@ -130,8 +150,8 @@
                     <div class="table__row" v-for="phrase in phrases">
                         <div class="table__col table__col--10">
                             <p><strong>{{ phrase.name }}</strong></p>
-                            <a href="">edytuj</a>&nbsp;
-                            <a href="">usuń</a>
+                            <router-link :to="{name: 'phraseEdit', params: { customerID: customer, phraseID: phrase.id }}">edytuj</router-link>&nbsp;
+                            <a href="#" @click="deletePhrase(customer, phrase.id)">usuń</a>
                         </div>
                         <template v-if="(phrase.positions.length > 0)">
                             <div class="table__col flex align-center justify-center" v-for="position in phrase.positions">

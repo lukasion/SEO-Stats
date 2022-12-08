@@ -17,6 +17,11 @@ const router = createRouter({
       component: PhraseFormView,
     },
     {
+      path: '/customer/:customerID/phrase/:phraseID/edit',
+      name: 'phraseEdit',
+      component: PhraseFormView,
+    },
+    {
       path: '/',
       name: 'login',
       component: LoginView
