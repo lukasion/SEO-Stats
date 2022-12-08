@@ -30,7 +30,7 @@
             console.error(data);
         });
     }
-
+   
     const editPhrase = () => {
         axios.put(`/api/customer/${route.params.customerID}/phrase/${route.params.phraseID}`, {
             name: name,
