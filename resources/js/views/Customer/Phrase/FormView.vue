@@ -1,66 +1,66 @@
 
 <script setup>
-    import { onMounted } from 'vue';
-    import { useRoute, useRouter } from 'vue-router';
-    import { VRow, VBtn, VTextField, VCol } from 'vuetify/components';
-  
-    const name = $ref('')
-    
-    const route = useRoute()
-    const router = useRouter()
-    const editMode = $ref(false)
-    const phrase = $ref(null)
+import { onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { VRow, VBtn, VTextField, VCol } from 'vuetify/components';
 
-    const submit = () => {
-        if (editMode == true) {
-            editPhrase()
-        } else {
-            addPhrase()
+const name = $ref('')
+
+const route = useRoute()
+const router = useRouter()
+const editMode = $ref(false)
+const phrase = $ref(null)
+
+const submit = () => {
+    if (editMode == true) {
+        editPhrase()
+    } else {
+        addPhrase()
+    }
+}
+
+const addPhrase = () => {
+    axios.post(`/api/customer/${route.params.customerID}/phrase`, {
+        name: name,
+    }).then(response => {
+        if (response.status == 201) {
+            router.push({name: 'dashboard', query: { customerID: route.params.customerID }});
         }
-    }
+    }).catch(data => {
+        console.error(data);
+    });
+}
 
-    const addPhrase = () => {
-        axios.post(`/api/customer/${route.params.customerID}/phrase`, {
-            name: name,
-        }).then(response => {
-            if (response.status == 201) {
-                router.push({name: 'dashboard', query: { customerID: route.params.customerID }});
-            }
-        }).catch(data => {
-            console.error(data);
-        });
-    }
-   
-    const editPhrase = () => {
-        axios.put(`/api/customer/${route.params.customerID}/phrase/${route.params.phraseID}`, {
-            name: name,
-        }).then(response => {
-            if (response.status == 200) {
-                router.push({name: 'dashboard', query: { customerID: route.params.customerID }});
-            }
-        }).catch(data => {
-            console.error(data);
-        });
-    }
-
-    const fetchPhrase = () => {
-        axios.get(`/api/customer/${route.params.customerID}/phrase/${route.params.phraseID}`).then(response => {
-            if (response.status == 200) {
-                phrase = response.data.phrase;
-                name = phrase.name;
-            }
-        }).catch(data => {
-            console.error(data);
-        });
-    }
-
-    onMounted(() => {
-        if (route.name == 'phraseEdit' && route.params.phraseID !== undefined) {
-            editMode = true;
-
-            fetchPhrase(route.params.phraseID)
+const editPhrase = () => {
+    axios.put(`/api/customer/${route.params.customerID}/phrase/${route.params.phraseID}`, {
+        name: name,
+    }).then(response => {
+        if (response.status == 200) {
+            router.push({name: 'dashboard', query: { customerID: route.params.customerID }});
         }
-    })
+    }).catch(data => {
+        console.error(data);
+    });
+}
+
+const fetchPhrase = () => {
+    axios.get(`/api/customer/${route.params.customerID}/phrase/${route.params.phraseID}`).then(response => {
+        if (response.status == 200) {
+            phrase = response.data.phrase;
+            name = phrase.name;
+        }
+    }).catch(data => {
+        console.error(data);
+    });
+}
+
+onMounted(() => {
+    if (route.name == 'phraseEdit' && route.params.phraseID !== undefined) {
+        editMode = true;
+
+        fetchPhrase(route.params.phraseID)
+    }
+})
 </script>
 
 <template>

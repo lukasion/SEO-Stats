@@ -1,12 +1,14 @@
 <script setup>
-    import { defineProps } from 'vue';
-    import { VBtn } from 'vuetify/components';
+import { defineProps } from 'vue';
+import { useRouter } from 'vue-router';
+import { VBtn } from 'vuetify/components';
+const router = useRouter()
 
-    const props = defineProps({
-        customerName: String,
-        phrases: Object,
-        customer: Number
-    })
+const props = defineProps({
+    customerName: String,
+    phrases: Object,
+    customer: Number
+})
 </script>
 
 <template>

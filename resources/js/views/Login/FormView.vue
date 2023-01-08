@@ -1,54 +1,54 @@
 
 <script setup>
-    import { VApp, VCard, VContainer, VRow, VCol, VBtn, VTextField, VCardText, VAlert } from 'vuetify/components';
-    import axios from 'axios';
-    import { useStore } from 'vuex';
-    import { onMounted } from 'vue'
-    import router from '../../router';
-    
-    const name = $ref('')
-    const show1 = $ref(false)
-    const password = $ref('')
-    const errorMessage = $ref('')
-    const loginSuccess = $ref(false)
-    const rules = {
-        required: value => !!value || 'Pole jest wymagane',
-        // min: v => v.length >= 8 || 'Minimum 8 znaków',
-    };
-    const store = useStore()
+import { VApp, VCard, VContainer, VRow, VCol, VBtn, VTextField, VCardText, VAlert } from 'vuetify/components';
+import axios from 'axios';
+import { useStore } from 'vuex';
+import { onMounted } from 'vue'
+import router from '../../router';
 
-    const register = () => {
+const name = $ref('')
+const show1 = $ref(false)
+const password = $ref('')
+const errorMessage = $ref('')
+const loginSuccess = $ref(false)
+const rules = {
+    required: value => !!value || 'Pole jest wymagane',
+    // min: v => v.length >= 8 || 'Minimum 8 znaków',
+};
+const store = useStore()
 
-    }
+const register = () => {
 
-    const submit = () => {
-        axios.post(`/user/login`, {
-            name: name,
-            password: password
-        }).then(async response => {
-            if (response.status == 204) {
-                loginSuccess = true;
-                errorMessage = '';
+}
 
-                await store.dispatch('me');
+const submit = () => {
+    axios.post(`/user/login`, {
+        name: name,
+        password: password
+    }).then(async response => {
+        if (response.status == 204) {
+            loginSuccess = true;
+            errorMessage = '';
 
-                router.push({name: 'dashboard'})
-            }
-        }).catch(data => {
-            const err = data.response.data;
+            await store.dispatch('me');
 
-            if (err) {
-                errorMessage = err.message;
-            }
-        });
-    }
-
-    onMounted(() => {
-        
-        if (store.state.user) {
             router.push({name: 'dashboard'})
         }
-    })
+    }).catch(data => {
+        const err = data.response.data;
+
+        if (err) {
+            errorMessage = err.message;
+        }
+    });
+}
+
+onMounted(() => {
+    
+    if (store.state.user) {
+        router.push({name: 'dashboard'})
+    }
+})
 </script>
 
 <template>

@@ -1,32 +1,33 @@
 <script setup>
-    import { VMain, VApp, VCard, VContainer, VListItemTitle, VIcon, VList, VListItem, VNavigationDrawer, VRow, VCol, VBtn } from 'vuetify/components';
-    import { onMounted } from 'vue';
-    import { useStore } from 'vuex';
-    const store = useStore()
-    const loaded = $ref(false)
-    const drawer = $ref(false)
-    const isAuthenticated = $ref(false)
+import { VMain, VApp, VCard, VContainer, VListItemTitle, VIcon, VList, VListItem, VNavigationDrawer, VRow, VCol, VBtn } from 'vuetify/components';
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-    const items = [
-        { title: 'Statystyki', icon: 'mdi-chart-bar', action: 'start', type: 'title' },
-        { title: 'Strona główna', icon: 'mdi-home-city', action: 'start', type: 'href' },
-        { title: 'Gracz', icon: 'mdi-chart-bar', action: 'characters', type: 'title' },
-        { title: 'Postacie', icon: 'mdi-account', action: 'characters', type: 'href' },
-        { title: 'Grupy', icon: 'mdi-account-group-outline', action: 'groups', type: 'href' },
-        { title: 'Wyloguj się', icon: 'mdi-logout', action: 'logout', type: 'href' },
-    ]
+const store = useStore()
+const loaded = $ref(false)
+const drawer = $ref(false)
+const isAuthenticated = $ref(false)
 
-    onMounted(async () => {
-        isAuthenticated = localStorage.getItem('USER_AUTHENTICATED');
-        
-        if (isAuthenticated && isAuthenticated === 'true') {
-            await store.dispatch('me');
+const items = [
+    { title: 'Statystyki', icon: 'mdi-chart-bar', action: 'start', type: 'title' },
+    { title: 'Strona główna', icon: 'mdi-home-city', action: 'start', type: 'href' },
+    { title: 'Gracz', icon: 'mdi-chart-bar', action: 'characters', type: 'title' },
+    { title: 'Postacie', icon: 'mdi-account', action: 'characters', type: 'href' },
+    { title: 'Grupy', icon: 'mdi-account-group-outline', action: 'groups', type: 'href' },
+    { title: 'Wyloguj się', icon: 'mdi-logout', action: 'logout', type: 'href' },
+]
 
-            loaded = true;
-        } else {
-            loaded = true;
-        }
-    });
+onMounted(async () => {
+    isAuthenticated = localStorage.getItem('USER_AUTHENTICATED');
+    
+    if (isAuthenticated && isAuthenticated === 'true') {
+        await store.dispatch('me');
+
+        loaded = true;
+    } else {
+        loaded = true;
+    }
+});
 </script>
 
 <template>
