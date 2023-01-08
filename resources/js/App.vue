@@ -8,14 +8,14 @@ const loaded = $ref(false)
 const drawer = $ref(false)
 const isAuthenticated = $ref(false)
 
-const items = [
-    { title: 'Statystyki', icon: 'mdi-chart-bar', action: 'start', type: 'title' },
-    { title: 'Strona główna', icon: 'mdi-home-city', action: 'start', type: 'href' },
-    { title: 'Gracz', icon: 'mdi-chart-bar', action: 'characters', type: 'title' },
-    { title: 'Postacie', icon: 'mdi-account', action: 'characters', type: 'href' },
-    { title: 'Grupy', icon: 'mdi-account-group-outline', action: 'groups', type: 'href' },
-    { title: 'Wyloguj się', icon: 'mdi-logout', action: 'logout', type: 'href' },
-]
+// const items = [
+//     { title: 'Statystyki', icon: 'mdi-chart-bar', action: 'start', type: 'title' },
+//     { title: 'Strona główna', icon: 'mdi-home-city', action: 'start', type: 'href' },
+//     { title: 'Gracz', icon: 'mdi-chart-bar', action: 'characters', type: 'title' },
+//     { title: 'Postacie', icon: 'mdi-account', action: 'characters', type: 'href' },
+//     { title: 'Grupy', icon: 'mdi-account-group-outline', action: 'groups', type: 'href' },
+//     { title: 'Wyloguj się', icon: 'mdi-logout', action: 'logout', type: 'href' },
+// ]
 
 onMounted(async () => {
     isAuthenticated = localStorage.getItem('USER_AUTHENTICATED');
@@ -37,14 +37,14 @@ onMounted(async () => {
                 <v-card class="elevation-10 rounded-lg">
                     <v-list-item class="px-2 header__top">
                         <div class="d-flex flex-row align-center" style="width: 100%;">
-                            <v-btn
+                            <!-- <v-btn
                                 v-if="isAuthenticated"
                                 class="mr-4 border-md" 
                                 elevation="0"
                                 style="border-color: #f7f7f7 !important;"
                                 @click.stop="drawer = !drawer">
                                 Menu
-                            </v-btn>
+                            </v-btn> -->
                             <div class="flex--1 d-flex align-center">
                                 <div class="header__logo">
                                     <div class="header__outbox">
@@ -74,7 +74,7 @@ onMounted(async () => {
                         </div>
                     </v-list-item>
 
-                    <div class="d-flex">
+                    <!-- <div class="d-flex">
                         <v-navigation-drawer
                             v-model="drawer"
                             temporary>
@@ -97,7 +97,7 @@ onMounted(async () => {
                                 </v-list-item>
                             </v-list>
                         </v-navigation-drawer>
-                    </div>  
+                    </div>   -->
 
                     <v-container fluid v-if="loaded">
                         <router-view></router-view>

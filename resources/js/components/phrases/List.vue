@@ -2,7 +2,19 @@
 import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 import { VBtn } from 'vuetify/components';
+
 const router = useRouter()
+const emit = defineEmits(['fetchCustomer'])
+
+const deletePhrase = (customerID, phraseID) => {
+    axios.delete(`/api/customer/${customerID}/phrase/${phraseID}`).then((response) => {
+        if (response.status == 200 && response.data.result == true) {
+            emit('fetchCustomer', customerID);
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+}
 
 const props = defineProps({
     customerName: String,
@@ -38,7 +50,7 @@ const props = defineProps({
                     </template>
                     <template v-else>
                         <div class="table__col flex align-center justify-center" v-for="index in 31" :key="'zero-' + index">
-                            0
+                            -
                         </div>
                     </template>
                 </div>

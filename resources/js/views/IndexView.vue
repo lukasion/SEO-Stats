@@ -81,16 +81,6 @@ const fetchCustomers = () => {
     });
 }
 
-const deletePhrase = (customerID, phraseID) => {
-    axios.delete(`/api/customer/${customerID}/phrase/${phraseID}`).then((response) => {
-        if (response.status == 200 && response.data.result == true) {
-            fetchCustomer(customerID);
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
-}
-
 const changeCustomer = (customerID) => {
     if (route.query.customerID != customerID) {
         route.query.customerID = null;
@@ -138,6 +128,7 @@ onMounted(() => {
             :phrases="phrases"
             :customer-name="customerName"
             :customer="customer"
+            @fetch-customer="fetchCustomer"
         ></phrase-list>
     </div>
 </template>
