@@ -17,6 +17,10 @@
     };
     const store = useStore()
 
+    const register = () => {
+
+    }
+
     const submit = () => {
         axios.post(`/user/login`, {
             name: name,
@@ -49,7 +53,7 @@
 
 <template>
     <v-app>
-        <v-container>
+        <v-container class="mb-5">
             <v-row align="center" justify="center">
                 <v-col
                     class="d-flex justify-center">
@@ -59,13 +63,12 @@
             <v-row align="center"
                 justify="center">
                 <v-card
-                    elevation="2"
-                    outlined
+                    elevation="0"
                     max-width="600"
                     class="mt-7 flex-grow-1">
                     <v-card-text>
                         <p class="text-h4 text--primary mb-4">
-                            Logowanie do Panelu
+                            Zaloguj się do swojego konta
                         </p>
 
                         <v-alert
@@ -114,6 +117,13 @@
                                     @click="submit"
                                     >
                                     Zaloguj się
+                                </v-btn>
+                                <v-btn
+                                    color="secondary"
+                                    class="mr-4 mt-2 mb-2"
+                                    @click="register"
+                                    >
+                                    Załóż konto
                                 </v-btn>
                             </v-row>
                         </form>

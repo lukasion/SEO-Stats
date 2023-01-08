@@ -4,8 +4,9 @@
     import { useStore } from 'vuex';
     const store = useStore()
     const loaded = $ref(false)
-
     const drawer = $ref(false)
+    const isAuthenticated = $ref(false)
+
     const items = [
         { title: 'Statystyki', icon: 'mdi-chart-bar', action: 'start', type: 'title' },
         { title: 'Strona główna', icon: 'mdi-home-city', action: 'start', type: 'href' },
@@ -16,7 +17,7 @@
     ]
 
     onMounted(async () => {
-        const isAuthenticated = localStorage.getItem('USER_AUTHENTICATED');
+        isAuthenticated = localStorage.getItem('USER_AUTHENTICATED');
         
         if (isAuthenticated && isAuthenticated === 'true') {
             await store.dispatch('me');
@@ -32,10 +33,11 @@
     <v-app>
         <v-main>
             <v-container>
-                <v-card min-height="90vh" class="elevation-10 rounded-lg">
+                <v-card class="elevation-10 rounded-lg">
                     <v-list-item class="px-2 header__top">
                         <div class="d-flex flex-row align-center" style="width: 100%;">
                             <v-btn
+                                v-if="isAuthenticated"
                                 class="mr-4 border-md" 
                                 elevation="0"
                                 style="border-color: #f7f7f7 !important;"
@@ -51,7 +53,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <v-row>
+                            <v-row 
+                                v-if="isAuthenticated"
+                                >
                                 <v-col class="justify-end flex">
                                     <ul class="header__menu">
                                         <li>
